@@ -36,6 +36,9 @@
         <Reference Include="Autofac, Version=6.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
           <HintPath>..\packages\Autofac.6.3.0\lib\netstandard2.0\Autofac.dll</HintPath>
         </Reference>
+        <Reference Include="AutoMapper, Version=10.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+          <HintPath>..\packages\AutoMapper.10.0.0\lib\net461\AutoMapper.dll</HintPath>
+        </Reference>
         <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
           <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
         </Reference>
@@ -45,6 +48,7 @@
         <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
           <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
         </Reference>
+        <Reference Include="Microsoft.CSharp" />
         <Reference Include="mscorlib" />
         <Reference Include="System" />
         <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -72,10 +76,12 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="DataProviders\MedicationsDataProvider.cs" />
         <Compile Include="DependencyConfiguration.cs" />
         <Compile Include="Entities\ChangeHistory.cs" />
         <Compile Include="Entities\Medication.cs" />
         <Compile Include="Entities\Substance.cs" />
+        <Compile Include="Mappers\EntityMapperProfile.cs" />
         <Compile Include="PharmDbContext.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
@@ -88,9 +94,6 @@
         <Project>{eac8f469-7fa5-44a3-8101-0948bc0bec88}</Project>
         <Name>BCC.Pharm.Shared</Name>
       </ProjectReference>
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="DataProviders" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

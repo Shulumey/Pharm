@@ -1,6 +1,6 @@
-﻿namespace BCC.Pharm.Shared.Models
+﻿namespace BCC.Pharm.Shared.Dtos
 {
-    public class Medication
+    public class MedicationDto
     {
         public int Id { get; set; }
         public string ActiveSubstance { get; set; }

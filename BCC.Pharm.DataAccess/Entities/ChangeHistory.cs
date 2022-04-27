@@ -20,7 +20,7 @@ namespace BCC.Pharm.DataAccess.Entities
         /// <summary>
         /// Внешний ключ на <see cref="Entities.Medication"/>.
         /// </summary>
-        [ForeignKey("MedicationId")]
+        [ForeignKey("Medication")]
         public int MedicationId { get; set; }
 
         /// <summary>
