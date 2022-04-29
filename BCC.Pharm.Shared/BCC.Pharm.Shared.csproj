@@ -38,14 +38,18 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Attributes\HistoricalFieldAttribute.cs" />
+        <Compile Include="ChangeSet.cs" />
+        <Compile Include="Contracts\Business\IImportDataFile.cs" />
         <Compile Include="Contracts\Data\IMedicationsDataProvider.cs" />
+        <Compile Include="Contracts\IObjectsComparer.cs" />
+        <Compile Include="DifferencesObjects.cs" />
         <Compile Include="Dtos\MedicationDto.cs" />
         <Compile Include="Dtos\MedicationHistoryDto.cs" />
+        <Compile Include="Extensions\ObjectExtension.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="PropertyValueChange.cs" />
         <Compile Include="SourceChange.cs" />
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Contracts\Business" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

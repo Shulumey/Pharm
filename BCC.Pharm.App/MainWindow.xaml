@@ -6,13 +6,31 @@
         xmlns:local="clr-namespace:BCC.Pharm.App"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        WindowStartupLocation="CenterScreen"
+        Title="Информацию о препаратах на складе"
+        Height="450" Width="800">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <DataGrid Grid.Row="0" ItemsSource="{Binding Medications }" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Препарат" Width="*" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Действующее вещество" Width="*" Binding="{Binding ActiveSubstance}"/>
+                <DataGridTextColumn Header="Цена" Width="*" Binding="{Binding Price}"/>
+                <DataGridTextColumn Header="Количество" Width="*" Binding="{Binding Quantity}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <StackPanel Grid.Row="1" HorizontalAlignment="Left" Margin="5">
+            <Button Content="Импорт данных" Width="100" Command="{Binding ImportCommand}"/>
+        </StackPanel>
     </Grid>
 </Window>

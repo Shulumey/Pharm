@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using BCC.Pharm.Shared;
 using BCC.Pharm.Shared.Contracts.Data;
 using BCC.Pharm.Shared.Dtos;
 
@@ -30,6 +31,24 @@ namespace BCC.Pharm.DataAccess.DataProviders
                 .Include(x => x.Substance)
                 .ProjectTo<MedicationDto>(_mapper.ConfigurationProvider)
                 .ToArrayAsync(cancellationToken);
+        }
+
+        /// <inheritdoc />
+        public Task UpdateAsync(DifferencesObjects<MedicationDto> differences, SourceChange sourceChange, CancellationToken cancellationToken)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        public Task AddAsync(IReadOnlyCollection<MedicationDto> medications, SourceChange sourceChange, CancellationToken cancellationToken)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        public Task DeleteAsync(IReadOnlyCollection<MedicationDto> medications, CancellationToken cancellationToken)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
