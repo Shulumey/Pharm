@@ -133,6 +133,18 @@ namespace BCC.Pharm.DataAccess.DataProviders
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
+        public async Task<MedicationDto> GetMedicationAsync(int id)
+        {
+            Medication medication = await _dbContext.Medications.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+            return _mapper.Map<MedicationDto>(medication);
+        }
+
+        public async Task<IReadOnlyCollection<MedicationHistoryDto>> GetMedicationHistoryAsync(int medicationId, CancellationToken cancellationToken) =>
+            await _dbContext.ChangesHistory
+                .Where(x => x.MedicationId == medicationId)
+                .ProjectTo<MedicationHistoryDto>(_mapper.ConfigurationProvider)
+                .ToArrayAsync(cancellationToken);
+
         private Medication[] FindMedications(IReadOnlyCollection<MedicationDto> medications, string activeSubstance) => medications
             .Where(x => x.ActiveSubstance.Normilize() == activeSubstance.Normilize())
             .Select(x => _mapper.Map<Medication>(x))

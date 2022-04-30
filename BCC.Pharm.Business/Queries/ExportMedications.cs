@@ -8,7 +8,7 @@ using MediatR;
 
 namespace BCC.Pharm.Business.Queries
 {
-    public static class ExportMedicationsQuery
+    public static class ExportMedications
     {
         public sealed class Query : IRequest<string>
         {

@@ -10,7 +10,8 @@ namespace BCC.Pharm.App.ViewModels
     {
         public ReactiveCommand<Unit, Unit> LoadedCommand { get; }
 
-        protected IMediator Mediator => App.DependencyContainer.Resolve<IMediator>();
+        protected IMediator Mediator => Container.Resolve<IMediator>();
+        protected IContainer Container => App.DependencyContainer;
         
         public BaseViewModel()
         {

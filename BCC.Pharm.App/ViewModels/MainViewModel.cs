@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
 using System.Windows;
+using BCC.Pharm.App.Services;
 using BCC.Pharm.Business.Commands;
 using BCC.Pharm.Business.Queries;
 using BCC.Pharm.Shared;
-using BCC.Pharm.Shared.Dtos;
 using Microsoft.Win32;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -16,8 +16,12 @@ namespace BCC.Pharm.App.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        public MainViewModel()
+        private readonly IWindowDialogService _dialogService;
+
+        public MainViewModel(IWindowDialogService dialogService)
         {
+            _dialogService = dialogService;
+            
             ImportCommand = ReactiveCommand.CreateFromTask(async () =>
             {
                 OpenFileDialog dialog = new OpenFileDialog
@@ -41,12 +45,18 @@ namespace BCC.Pharm.App.ViewModels
             ExportToXmlCommand = ReactiveCommand.CreateFromTask(() => SaveTextFileAsync(ExportFormat.Xml, "Xml files (.xml)|*.xml"));
 
             RefreshCommand = ReactiveCommand.CreateFromTask(OnLoadedAsync);
+
+            ShowMedicationHistoryCommand = ReactiveCommand.Create<MedicationItemViewModel>(selectedItem =>
+            {
+                HistoryViewModel vm = new HistoryViewModel(selectedItem.Model);
+                _dialogService.ShowDialog("История изменений", vm);
+            });
         }
         
         protected override async Task OnLoadedAsync()
         {
             var result = await Mediator.Send(new GetAllMedications.Query());
-            Medications = new ObservableCollection<MedicationDto>(result);
+            Medications = new ObservableCollection<MedicationItemViewModel>(result.Select(x => new MedicationItemViewModel(x)));
         }
 
         private async Task SaveTextFileAsync(ExportFormat format, string fileFilterDialog)
@@ -58,7 +68,7 @@ namespace BCC.Pharm.App.ViewModels
             if (saveFileDialog.ShowDialog() == true)
             {
                 var data = await Mediator.Send(new GetAllMedications.Query());
-                string serializedData = await Mediator.Send(new ExportMedicationsQuery.Query(data, format));
+                string serializedData = await Mediator.Send(new ExportMedications.Query(data, format));
                 {
                     File.WriteAllText(saveFileDialog.FileName, serializedData);
                     MessageBox.Show("Файл успешно выгружен", "Выгрузка", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -67,11 +77,12 @@ namespace BCC.Pharm.App.ViewModels
         }
 
         [Reactive]
-        public ObservableCollection<MedicationDto> Medications { get; set; }
+        public ObservableCollection<MedicationItemViewModel> Medications { get; set; }
 
         public ReactiveCommand<Unit, Unit> ImportCommand { get; }
         public ReactiveCommand<Unit, Unit> RefreshCommand { get; }
         public ReactiveCommand<Unit, Unit> ExportToJsonCommand { get; }
         public ReactiveCommand<Unit, Unit> ExportToXmlCommand { get; }
+        public ReactiveCommand<MedicationItemViewModel, Unit> ShowMedicationHistoryCommand { get; }
     }
 }
