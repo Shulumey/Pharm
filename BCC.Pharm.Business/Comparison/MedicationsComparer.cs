@@ -2,29 +2,29 @@
 using System.Linq;
 using BCC.Pharm.Shared;
 using BCC.Pharm.Shared.Contracts;
+using BCC.Pharm.Shared.Dtos;
 
 namespace BCC.Pharm.Business
 {
-    public class MedicationsComparer<T> : IObjectsComparer<T> where T : class
+    public class MedicationsComparer : IObjectsComparer<MedicationDto>
     {
-        public ChangeSet<T> GetChangeSet(IReadOnlyCollection<T> originalObjects, IReadOnlyCollection<T> newObjects)
+        public ChangeSet<MedicationDto> GetChangeSet(IReadOnlyCollection<MedicationDto> originalObjects, IReadOnlyCollection<MedicationDto> newObjects)
         {
-            T[] updatedObjects = newObjects.Intersect(originalObjects).ToArray();
-            T[] added = newObjects.Except(originalObjects).ToArray();
-            T[] removed = originalObjects.Except(newObjects).ToArray();
+            MedicationDto[] updatedObjects = newObjects.Intersect(originalObjects, MedicationDto.DefaultComparer).ToArray();
+            MedicationDto[] added = newObjects.Except(originalObjects, MedicationDto.DefaultComparer).ToArray();
+            MedicationDto[] removed = originalObjects.Except(newObjects, MedicationDto.DefaultComparer).ToArray();
 
-            List<DifferencesObjects<T>> differencesObjects = new List<DifferencesObjects<T>>();
-            
-            foreach (T updatedObject in updatedObjects)
+            List<DifferencesObjects<MedicationDto>> differencesObjects = new List<DifferencesObjects<MedicationDto>>();
+            foreach (MedicationDto updatedObject in updatedObjects)
             {
-                T originalObject = originalObjects.FirstOrDefault(x => updatedObject.Equals(x));
+                MedicationDto originalObject = originalObjects.FirstOrDefault(x => updatedObject.Equals(x));
                 if (originalObject != null && originalObject.GetDiffProps(updatedObject).Any())
                 {
-                    differencesObjects.Add(new DifferencesObjects<T>(originalObject, updatedObject));
+                    differencesObjects.Add(new DifferencesObjects<MedicationDto>(originalObject, updatedObject));
                 }
             }
 
-            return new ChangeSet<T>(added, removed, differencesObjects);
+            return new ChangeSet<MedicationDto>(added, removed, differencesObjects);
         }
     }
 }

@@ -8,6 +8,7 @@ namespace BCC.Pharm.DataAccess.Entities
     /// <summary>
     /// История измнения параметра лекарственного препарата.
     /// </summary>
+    [Table("MedicationsChangeHistory")]
     public class ChangeHistory
     {
         /// <summary>

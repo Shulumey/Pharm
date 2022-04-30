@@ -1,5 +1,7 @@
 ﻿using Autofac;
+using BCC.Pharm.Business.Export;
 using BCC.Pharm.Business.Import;
+using BCC.Pharm.Shared;
 using BCC.Pharm.Shared.Contracts;
 using BCC.Pharm.Shared.Contracts.Business;
 using BCC.Pharm.Shared.Dtos;
@@ -13,8 +15,10 @@ namespace BCC.Pharm.Business
         {
             containerBuilder.RegisterMediatR(typeof(DependencyConfiguration).Assembly);
 
-            containerBuilder.RegisterType<XmlImportDataFile>().As<IImportDataFile>();
-            containerBuilder.RegisterType<MedicationsComparer<MedicationDto>>().As<IObjectsComparer<MedicationDto>>();
+            containerBuilder.RegisterType<XmlImportDataFile>().As<IMedicationsImporter>();
+            containerBuilder.RegisterType<MedicationsComparer>().As<IObjectsComparer<MedicationDto>>();
+            containerBuilder.RegisterType<JsonMedicationsExporter>().Keyed<IMedicationsExporter>(ExportFormat.Json);
+            containerBuilder.RegisterType<XmlMedicationsExporter>().Keyed<IMedicationsExporter>(ExportFormat.Xml);
         }
     }
 }

@@ -6,10 +6,10 @@ using BCC.Pharm.Shared.Dtos;
 namespace BCC.Pharm.Shared.Contracts.Business
 {
     /// <summary>
-    /// Импорт данных о препаратах из файла
+    /// Импорт данных о препаратах
     /// </summary>
-    public interface IImportDataFile
+    public interface IMedicationsImporter
     {
-        Task<IReadOnlyCollection<MedicationDto>> LoadAsync(TextReader fileReader);
+        Task<IReadOnlyCollection<MedicationDto>> ReadAsync(TextReader fileReader);
     }
 }

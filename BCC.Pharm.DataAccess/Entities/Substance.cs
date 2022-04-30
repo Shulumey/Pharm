@@ -28,5 +28,10 @@ namespace BCC.Pharm.DataAccess.Entities
         /// Препараты, в которых содержатся действующее вещество.
         /// </summary>
         public ICollection<Medication> Medications { get; set; }
+
+        public Substance()
+        {
+            Medications = new List<Medication>();
+        }
     }
 }

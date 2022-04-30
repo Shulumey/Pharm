@@ -16,7 +16,7 @@ namespace BCC.Pharm.Shared
 
             List<PropertyValueChange> changes = new List<PropertyValueChange>();
 
-            foreach (PropertyInfo property in typeof(T).GetProperties(BindingFlags.Public))
+            foreach (PropertyInfo property in typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
                 HistoricalFieldAttribute fieldAttribute = property.GetCustomAttribute<HistoricalFieldAttribute>();
                 if (fieldAttribute != null)
@@ -24,13 +24,13 @@ namespace BCC.Pharm.Shared
                     object sourceValue = property.GetValue(source);
                     object targetValue = property.GetValue(target);
                     
-                    if (sourceValue != targetValue)
+                    if (sourceValue?.ToString() != targetValue?.ToString())
                     {
                         changes.Add(new PropertyValueChange
                         {
                             Name = string.IsNullOrEmpty(fieldAttribute.Name) ? property.Name : fieldAttribute.Name,
-                            ValueBefore = source?.ToString(),
-                            ValueAfter = target?.ToString()
+                            ValueBefore = sourceValue?.ToString(),
+                            ValueAfter = targetValue?.ToString()
                         });
                     }
                 }

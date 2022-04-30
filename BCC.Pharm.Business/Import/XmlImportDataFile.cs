@@ -9,9 +9,9 @@ using BCC.Pharm.Shared.Dtos;
 
 namespace BCC.Pharm.Business.Import
 {
-    public class XmlImportDataFile : IImportDataFile
+    public class XmlImportDataFile : IMedicationsImporter
     {
-        public Task<IReadOnlyCollection<MedicationDto>> LoadAsync(TextReader fileReader)
+        public Task<IReadOnlyCollection<MedicationDto>> ReadAsync(TextReader fileReader)
         {
             return Task.Run(() =>
             {

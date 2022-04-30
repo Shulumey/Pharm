@@ -14,9 +14,9 @@ namespace BCC.Pharm.App.ViewModels
         
         public BaseViewModel()
         {
-            LoadedCommand = ReactiveCommand.CreateFromTask(OnLoaded);
+            LoadedCommand = ReactiveCommand.CreateFromTask(OnLoadedAsync);
         }
 
-        protected virtual Task OnLoaded() => Task.CompletedTask;
+        protected virtual Task OnLoadedAsync() => Task.CompletedTask;
     }
 }

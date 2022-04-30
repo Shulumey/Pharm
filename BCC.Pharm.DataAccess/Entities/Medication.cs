@@ -53,5 +53,10 @@ namespace BCC.Pharm.DataAccess.Entities
         /// История изменений.
         /// </summary>
         public ICollection<ChangeHistory> ChangesHistory { get; set; }
+
+        public Medication()
+        {
+            ChangesHistory = new List<ChangeHistory>();
+        }
     }
 }

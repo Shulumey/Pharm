@@ -8,12 +8,18 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="Информацию о препаратах на складе"
-        Height="450" Width="800">
+        Height="600" Width="1000">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Margin" Value="0,0,5,0"/>
+            <Setter Property="Height" Value="25"/>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -29,8 +35,11 @@
             </DataGrid.Columns>
         </DataGrid>
         
-        <StackPanel Grid.Row="1" HorizontalAlignment="Left" Margin="5">
+        <StackPanel Grid.Row="1" HorizontalAlignment="Left" Margin="5" Orientation="Horizontal">
             <Button Content="Импорт данных" Width="100" Command="{Binding ImportCommand}"/>
+            <Button Content="Обновить" Width="100" Command="{Binding RefreshCommand}"/>
+            <Button Content="Выгрузить в json" Width="100" Command="{Binding ExportToJsonCommand}"/>
+            <Button Content="Выгрузить в xml" Width="100" Command="{Binding ExportToXmlCommand}"/>
         </StackPanel>
     </Grid>
 </Window>

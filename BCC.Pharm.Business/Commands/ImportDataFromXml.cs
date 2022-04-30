@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using BCC.Pharm.Shared;
@@ -26,8 +26,8 @@ namespace BCC.Pharm.Business.Commands
         /// <inheritdoc />
         public sealed class Handler: IRequestHandler<Command>
         {
-            /// <inheritdoc cref="IImportDataFile"/>
-            private readonly IImportDataFile _importDataFile;
+            /// <inheritdoc cref="IMedicationsImporter"/>
+            private readonly IMedicationsImporter _importDataFile;
 
             /// <inheritdoc cref="IObjectsComparer{MedicationDto}"/>
             private readonly IObjectsComparer<MedicationDto> _medicationsComparer;
@@ -35,7 +35,7 @@ namespace BCC.Pharm.Business.Commands
             /// <inheritdoc cref="IMedicationsDataProvider"/>
             private readonly IMedicationsDataProvider _medicationsDataProvider;
 
-            public Handler(IImportDataFile importDataFile, IObjectsComparer<MedicationDto> medicationsComparer, IMedicationsDataProvider medicationsDataProvider)
+            public Handler(IMedicationsImporter importDataFile, IObjectsComparer<MedicationDto> medicationsComparer, IMedicationsDataProvider medicationsDataProvider)
             {
                 _importDataFile = importDataFile;
                 _medicationsComparer = medicationsComparer;
@@ -47,10 +47,25 @@ namespace BCC.Pharm.Business.Commands
             {
                 using (TextReader filerReader = new StreamReader(request.FilePath))
                 {
-                    IReadOnlyCollection<MedicationDto> data = await _importDataFile.LoadAsync(filerReader);
+                    IReadOnlyCollection<MedicationDto> data = await _importDataFile.ReadAsync(filerReader);
                     IReadOnlyCollection<MedicationDto> originalData = await _medicationsDataProvider.GetAllMedicationsAsync(cancellationToken);
 
-                    ChangeSet<MedicationDto> changeSet = _medicationsComparer.GetChangeSet(originalData, data);
+                    ChangeSet<MedicationDto> changeSet = _medicationsComparer.GetChangeSet(originalData, data.Distinct(MedicationDto.DefaultComparer).ToArray());
+
+                    if (changeSet.Added.Any())
+                    {
+                        await _medicationsDataProvider.AddAsync(changeSet.Added, cancellationToken);
+                    }
+
+                    if (changeSet.Updated.Any())
+                    {
+                        await _medicationsDataProvider.UpdateAsync(changeSet.Updated, SourceChange.Automatically, cancellationToken);
+                    }
+
+                    if (changeSet.Removed.Any())
+                    {
+                        await _medicationsDataProvider.DeleteAsync(changeSet.Removed, cancellationToken);
+                    }
                 }
 
                 return Unit.Value;

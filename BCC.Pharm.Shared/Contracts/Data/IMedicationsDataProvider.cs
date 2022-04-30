@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using BCC.Pharm.Shared.Dtos;
@@ -8,7 +9,7 @@ namespace BCC.Pharm.Shared.Contracts.Data
     /// <summary>
     /// Провайдер данных для работы с препаратами.
     /// </summary>
-    public interface IMedicationsDataProvider
+    public interface IMedicationsDataProvider: IDisposable
     {
         /// <summary>
         /// Получение актуальных данных о препаратах.
@@ -17,23 +18,22 @@ namespace BCC.Pharm.Shared.Contracts.Data
         /// <returns></returns>
         Task<IReadOnlyCollection<MedicationDto>> GetAllMedicationsAsync(CancellationToken cancellationToken);
 
-        /// <summary>
-        /// Обновление информации о препаратах.
-        /// </summary>
-        /// <param name="differences">Объекты, которые изменились.</param>
-        /// <param name="sourceChange">Каким способом были обновлены.</param>
-        ///<param name="cancellationToken"><see cref="CancellationToken"/>.</param>
-        /// <returns><see cref="Task"/>.</returns>
-        Task UpdateAsync(DifferencesObjects<MedicationDto> differences, SourceChange sourceChange, CancellationToken cancellationToken);
+        ///  <summary>
+        ///  Обновление информации о препаратах.
+        ///  </summary>
+        ///  <param name="differences">Объекты, которые изменились.</param>
+        ///  <param name="sourceChange">Каким способом были обновлены.</param>
+        ///  <param name="cancellationToken"><see cref="CancellationToken"/>.</param>
+        ///  <returns><see cref="Task"/>.</returns>
+        Task UpdateAsync(IReadOnlyCollection<DifferencesObjects<MedicationDto>> differences, SourceChange sourceChange, CancellationToken cancellationToken);
 
         /// <summary>
         /// Добавление препаратов.
         /// </summary>
         /// <param name="medications">Препараты.</param>
-        /// <param name="sourceChange">Каким способом были добавлены.</param>
         ///<param name="cancellationToken"><see cref="CancellationToken"/>.</param>
         /// <returns><see cref="Task"/>.</returns>
-        Task AddAsync(IReadOnlyCollection<MedicationDto> medications, SourceChange sourceChange, CancellationToken cancellationToken);
+        Task AddAsync(IReadOnlyCollection<MedicationDto> medications, CancellationToken cancellationToken);
 
         /// <summary>
         /// 
