@@ -35,6 +35,7 @@ namespace BCC.Pharm.App.ViewModels
                         FilePath = dialog.FileName
                     });
                     await OnLoadedAsync();
+                    MessageBox.Show("Данные успешно импортированы", "Ипорт", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
 
                 await Task.CompletedTask;

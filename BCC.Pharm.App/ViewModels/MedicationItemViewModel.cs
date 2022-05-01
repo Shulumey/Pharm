@@ -17,7 +17,6 @@ namespace BCC.Pharm.App.ViewModels
             Model = model;
 
             this.WhenAnyPropertyChanged(nameof(Price), nameof(Quantity))
-                .Throttle(TimeSpan.FromMilliseconds(300))
                 .Subscribe(async vm =>
                 {
                      await Mediator.Send(new UpdateMedication.Command(vm.Model));

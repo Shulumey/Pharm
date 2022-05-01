@@ -20,6 +20,9 @@ namespace BCC.Pharm.Business.Commands
         /// <inheritdoc />
         public sealed class Command : IRequest
         {
+            /// <summary>
+            /// Путь к XML-файлу.
+            /// </summary>
             public string FilePath { get; set; }
         }
         

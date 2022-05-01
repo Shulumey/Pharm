@@ -9,7 +9,9 @@ using Formatting = System.Xml.Formatting;
 
 namespace BCC.Pharm.Business.Export
 {
-    /// <inheritdoc/>
+    /// <summary>
+    /// Экспорт данных в XML.
+    /// </summary>
     public class XmlMedicationsExporter : IMedicationsExporter
     {
         /// <inheritdoc/>

@@ -3,7 +3,6 @@ using System.Windows;
 using Autofac;
 using BCC.Pharm.Business;
 using BCC.Pharm.DataAccess;
-using System.Reactive.Linq;
 using ReactiveUI;
 
 namespace BCC.Pharm.App

@@ -6,6 +6,14 @@ namespace BCC.Pharm.Shared
 {
     public static class ObjectExtension
     {
+        /// <summary>
+        /// Получение свойств, которые изменились.
+        /// </summary>
+        /// <param name="source">Исходный объект.</param>
+        /// <param name="target">Целевой объект.</param>
+        /// <typeparam name="T">Тип, свойства которого необходимо сравнить.</typeparam>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">Если целевой объект равен NULL.</exception>
         public static PropertyValueChange[] GetDiffProps<T>(this T source, T target) 
             where T : class
         {

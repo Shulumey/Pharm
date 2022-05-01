@@ -6,6 +6,9 @@ using BCC.Pharm.Shared.Contracts.Data;
 
 namespace BCC.Pharm.DataAccess
 {
+    /// <summary>
+    /// Регистрация зависимостей.
+    /// </summary>
     public static class DependencyConfiguration
     {
         public static void RegisterDataAccess(this ContainerBuilder containerBuilder, string connectionString)

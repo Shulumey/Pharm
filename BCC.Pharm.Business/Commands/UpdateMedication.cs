@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using BCC.Pharm.Shared;
 using BCC.Pharm.Shared.Contracts;
@@ -9,10 +8,17 @@ using MediatR;
 
 namespace BCC.Pharm.Business.Commands
 {
+    /// <summary>
+    /// Обновление данных о препарате.
+    /// </summary>
     public class UpdateMedication : IRequest
     {
+        /// <inheritdoc />
         public sealed class Command : IRequest
         {
+            /// <summary>
+            /// Препарат.
+            /// </summary>
             public MedicationDto Medication { get; }
 
             public Command(MedicationDto medication)
@@ -24,7 +30,10 @@ namespace BCC.Pharm.Business.Commands
         ///<inheritdoc/>
         public sealed class Handler: IRequestHandler<Command>
         {
+            /// <inheritdoc cref="IMedicationsDataProvider"/>
             private readonly IMedicationsDataProvider _dataProvider;
+            
+            /// <inheritdoc cref="IObjectsComparer{MedicationDto}"/>
             private readonly IObjectsComparer<MedicationDto> _medicationsComparer;
 
             public Handler(IMedicationsDataProvider dataProvider, IObjectsComparer<MedicationDto> medicationsComparer)

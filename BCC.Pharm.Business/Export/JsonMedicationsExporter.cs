@@ -5,7 +5,9 @@ using Newtonsoft.Json;
 
 namespace BCC.Pharm.Business.Export
 {
-    /// <inheritdoc />
+    /// <summary>
+    /// Экспорт данных в Json.
+    /// </summary>
     public class JsonMedicationsExporter : IMedicationsExporter
     {
         /// <inheritdoc />

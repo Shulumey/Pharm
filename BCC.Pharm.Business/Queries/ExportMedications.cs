@@ -8,11 +8,22 @@ using MediatR;
 
 namespace BCC.Pharm.Business.Queries
 {
+    /// <summary>
+    /// Экспорт данных
+    /// </summary>
     public static class ExportMedications
     {
+        /// <inheritdoc />
         public sealed class Query : IRequest<string>
         {
+            /// <summary>
+            /// Данные, которые необходимо выгрузить.
+            /// </summary>
             public IReadOnlyCollection<MedicationDto> Data { get; }
+            
+            /// <summary>
+            /// Формат эеспортируемых данных.
+            /// </summary>
             public ExportFormat Format { get; }
 
             public Query(IReadOnlyCollection<MedicationDto> data, ExportFormat format)
@@ -25,6 +36,7 @@ namespace BCC.Pharm.Business.Queries
         /// <inheritdoc />
         public sealed class Handler : IRequestHandler<Query ,string>
         {
+            /// <inheritdoc />
             public Task<string> Handle(Query request, CancellationToken cancellationToken) => 
                 Task.FromResult(ExporterFactory.Create(request.Format).GetExportedData(request.Data));
         }

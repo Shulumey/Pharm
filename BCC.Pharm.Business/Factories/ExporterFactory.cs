@@ -5,6 +5,9 @@ using BCC.Pharm.Shared.Contracts.Business;
 
 namespace BCC.Pharm.Business.Factories
 {
+    /// <summary>
+    /// Фабрика для создания объектов типа <see cref="IMedicationsExporter"/>
+    /// </summary>
     public static class ExporterFactory
     {
         public static IMedicationsExporter Create(ExportFormat format)
